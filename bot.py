@@ -46,7 +46,7 @@ async def start_command(message : types.Message, state: FSMContext):
         await insert_q.ansver.set()
     else: 
         await state.finish()
-        await bot.send_message(message.from_user.id, "Добрий вечір!", reply_markup=admin_kb)
+        await bot.send_message(message.from_user.id, "<b>Добрий вечір!</b>", reply_markup=admin_kb)
 
 @dp.message_handler(state=insert_q.ansver)
 async def start_command(message : types.Message, state: FSMContext):
@@ -58,7 +58,7 @@ async def start_command(message : types.Message, state: FSMContext):
         await state.finish()
     else:
         await state.finish()
-        await bot.send_message(message.from_user.id, "Добрий вечір!", reply_markup=admin_kb)
+        await bot.send_message(message.from_user.id, "<b>Добрий вечір!</b>", reply_markup=admin_kb)
 
 
 @dp.message_handler(commands=['start'])
@@ -71,7 +71,7 @@ async def start_command(message : types.Message):
         kb.add(InlineKeyboardButton(f"{question[0]}", callback_data=f"{question[0]}"))
 
     await message.delete()
-    await bot.send_message(message.from_user.id, """Головне меню!
+    await bot.send_message(message.from_user.id, """<b>Головне меню!</b>
     
 Виберіть своє питання нижче:""", reply_markup=kb)
 
