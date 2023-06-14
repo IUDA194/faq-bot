@@ -35,3 +35,18 @@ class database:
 
         if len(result) >= 1: return {"status" : True, "question" : result}
         else: return {"status" : False}
+
+    def edit_question_hedder(self, question, new_question):
+        cur.execute(" UPDATE question SET question = ? WHERE question = ?", (new_question, question))
+        db.commit()
+        return {"status" : True}
+    
+    def edit_question_ansv(self, question, new_tex):
+        cur.execute(" UPDATE question SET ansver = ? WHERE question = ?", (new_tex, question))
+        db.commit()
+        return {"status" : True}
+
+    def delate_question(self, question):
+        cur.execute(""" DELETE FROM question WHERE question = ? """, (question,))
+        db.commit()
+        return {"status" : True}
