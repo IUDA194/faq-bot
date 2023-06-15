@@ -1,5 +1,6 @@
 import sqlite3 as sql
 import datetime
+import re
 
 
 db = sql.connect('DataBaseSecond.db')
@@ -23,8 +24,14 @@ class database:
         return {"status" : True, "data" : {"question" : question, "ansv" : ansv}}
     
     def select_ansv_from_question(self, question):
-        cur.execute(""" SELECT ansver FROM question WHERE question = ? """, (question,))
+        cur.execute(""" SELECT question FROM question""")
         result = cur.fetchall()
+        
+        for i in result:
+            if re.sub('[^\x00-\x7Fа-яА-Я]', '', f"{i[0]}"[:30]) == question[:30]:
+                cur.execute(""" SELECT ansver FROM question WHERE question = ?""", (i[0],))
+                result = cur.fetchall()
+                break
 
         if len(result) >= 1: return {"status" : True, "ansv" : result[0][0]}
         else: return {"status" : False}
@@ -50,3 +57,4 @@ class database:
         cur.execute(""" DELETE FROM question WHERE question = ? """, (question,))
         db.commit()
         return {"status" : True}
+    
