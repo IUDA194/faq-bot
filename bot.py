@@ -73,12 +73,28 @@ async def checkAnswer(callback_query: types.CallbackQuery):
 
 @dp.callback_query_handler(text="delate_q")
 async def checkAnswer(callback_query: types.CallbackQuery):
-    await bot.send_message(callback_query.from_user.id, "Введіть питання:")
+
+    kb = ReplyKeyboardMarkup()
+
+    questions = DataBase.select_all_question()["question"]
+
+    for question in questions:
+        kb.add(KeyboardButton(f"{question[0]}"))
+
+    await bot.send_message(callback_query.from_user.id, "Введіть питання:", reply_markup=kb)
     await delate_q.question.set()
 
 @dp.callback_query_handler(text="edit_q")
 async def checkAnswer(callback_query: types.CallbackQuery):
-    await bot.send_message(callback_query.from_user.id, "Введіть питання, яке хочете змінити:")
+
+    kb = ReplyKeyboardMarkup()
+
+    questions = DataBase.select_all_question()["question"]
+
+    for question in questions:
+        kb.add(KeyboardButton(f"{question[0]}"))
+
+    await bot.send_message(callback_query.from_user.id, "Введіть питання:", reply_markup=kb)
     await edit_q.question.set()
 
 @dp.message_handler(state=delate_q.question)
@@ -120,7 +136,15 @@ async def start_command(message : types.Message, state: FSMContext):
 
 @dp.callback_query_handler(text="edit_q_t")
 async def checkAnswer(callback_query: types.CallbackQuery):
-    await bot.send_message(callback_query.from_user.id, "Введіть питання, яке хочете змінити:")
+
+    kb = ReplyKeyboardMarkup()
+
+    questions = DataBase.select_all_question()["question"]
+
+    for question in questions:
+        kb.add(KeyboardButton(f"{question[0]}"))
+
+    await bot.send_message(callback_query.from_user.id, "Введіть питання:", reply_markup=kb)
     await edit_q_t.question.set()
 
 @dp.message_handler(state=edit_q_t.question)
@@ -187,7 +211,7 @@ async def start_command(message : types.Message):
 
 @dp.callback_query_handler(text='no_ansv')
 async def checkAnswer(callback_query: types.CallbackQuery):
-    callback_query.answer("Напищіть на почту коледжу: kpcc@meta.ua")
+    await callback_query.answer("Напищіть на почту коледжу: kpcc@meta.ua", show_alert=True)
 
 @dp.callback_query_handler()
 async def checkAnswer(callback_query: types.CallbackQuery):
