@@ -58,7 +58,7 @@ async def checkAnswer(callback_query: types.CallbackQuery):
     questions = DataBase.select_all_question()["question"]
 
     for question in questions:
-        kb.add(InlineKeyboardButton(f"{question[0]}", callback_data=re.sub('[^\x00-\x7Fа-яА-Я]', '', f"{question[0]}")))
+        kb.add(InlineKeyboardButton(f"{question[0]}", callback_data=re.sub('[^\x00-\x7Fа-яА-Я]', '', f"{question[0]}"[:30])))
     kb.add(InlineKeyboardButton("Не знайшли відповідь на своє питання", callback_data="no_ansv"))
 
     #await callback_query.message.delete()
@@ -66,6 +66,8 @@ async def checkAnswer(callback_query: types.CallbackQuery):
     
 Виберіть своє питання нижче:""", reply_markup=kb)
     
+
+
 
 @dp.callback_query_handler(text="insert_q")
 async def checkAnswer(callback_query: types.CallbackQuery):
@@ -201,8 +203,6 @@ async def start_command(message : types.Message):
 
     questions = DataBase.select_all_question()["question"]
 
-    n = 0
-
     for question in questions:
         kb.add(InlineKeyboardButton(f"{question[0]}", callback_data=re.sub('[^\x00-\x7Fа-яА-Я]', '', f"{question[0]}"[:30])))
     kb.add(InlineKeyboardButton("Не знайшли відповідь на своє питання", callback_data="no_ansv"))
@@ -223,6 +223,9 @@ async def checkAnswer(callback_query: types.CallbackQuery):
     if result["status"]: await bot.send_message(callback_query.from_user.id, result["ansv"], reply_markup=to_menu_kb)
     else: pass
 
+@dp.message_handler()
+async def start_command(message : types.Message):
+    pass 
 #запуск бота
 async def on_startup(_):
     print('bot online')
