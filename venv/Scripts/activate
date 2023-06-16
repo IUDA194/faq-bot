@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="X:\py\faq-bot\venv"
+VIRTUAL_ENV="C:\Users\popms\OneDrive\Документы\GitHub\faq-bot\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

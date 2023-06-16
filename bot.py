@@ -225,7 +225,7 @@ async def checkAnswer(callback_query: types.CallbackQuery):
 
 @dp.message_handler()
 async def start_command(message : types.Message):
-    pass 
+    await bot.send_message(message.from_user.id, "<b>Добрий вечір!</b>", reply_markup=to_menu_kb)
 #запуск бота
 async def on_startup(_):
     print('bot online')
