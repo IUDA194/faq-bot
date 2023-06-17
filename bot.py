@@ -42,7 +42,7 @@ admin_kb = InlineKeyboardMarkup(row_width=1).add(InlineKeyboardButton("Дода�
                                                 InlineKeyboardButton("Змінити питання текст", callback_data="edit_q_t"),
                                                 InlineKeyboardButton("Видалити питання", callback_data="delate_q"))
 
-to_menu_kb = InlineKeyboardMarkup().add(InlineKeyboardButton("Повернутися до списку питань", callback_data="back_to_main"))
+to_menu_kb = InlineKeyboardMarkup().add(InlineKeyboardButton("⬅️ Повернутися до списку питань", callback_data="back_to_main"))
 
 @dp.message_handler(commands=['admin'])
 async def start_command(message : types.Message):
@@ -59,7 +59,7 @@ async def checkAnswer(callback_query: types.CallbackQuery):
 
     for question in questions:
         kb.add(InlineKeyboardButton(f"{question[0]}", callback_data=re.sub('[^\x00-\x7Fа-яА-Я]', '', f"{question[0]}"[:30])))
-    kb.add(InlineKeyboardButton("Не знайшли відповідь на своє питання", callback_data="no_ansv"))
+    kb.add(InlineKeyboardButton("📩 Не знайшли відповідь на своє питання", callback_data="no_ansv"))
 
     #await callback_query.message.delete()
     await bot.send_message(callback_query.message.chat.id, """<b>Головне меню!</b>
@@ -82,7 +82,7 @@ async def checkAnswer(callback_query: types.CallbackQuery):
     questions = DataBase.select_all_question()["question"]
 
     for question in questions:
-        kb.add(KeyboardButton(re.sub('[^\x00-\x7Fа-яА-Я]', '', f"{question[0]}")))
+        kb.add(KeyboardButton(f"{question[0]}"))
 
     await bot.send_message(callback_query.from_user.id, "Введіть питання:", reply_markup=kb)
     await delate_q.question.set()
@@ -205,7 +205,7 @@ async def start_command(message : types.Message):
 
     for question in questions:
         kb.add(InlineKeyboardButton(f"{question[0]}", callback_data=re.sub('[^\x00-\x7Fа-яА-Я]', '', f"{question[0]}"[:30])))
-    kb.add(InlineKeyboardButton("Не знайшли відповідь на своє питання", callback_data="no_ansv"))
+    kb.add(InlineKeyboardButton("📩 Не знайшли відповідь на своє питання", callback_data="no_ansv"))
 
     await message.delete()
     await bot.send_message(message.from_user.id, """<b>Головне меню!</b>
